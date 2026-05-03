@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const GEMINI_API_KEY = "AIzaSyBZ9DbtNE-R9PqHd_B9Dk9wgIDspO5LjAc";
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 export async function POST(req: NextRequest) {
   const { imageBase64 } = await req.json();
