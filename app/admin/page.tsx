@@ -65,7 +65,7 @@ export default function Admin() {
     if (!nom || !categorie || !prix) return alert("Remplis tous les champs");
     const produits = getProduits();
     if (edition) {
-      const idx = produits.findIndex(p => String(p.id) === edition);
+      const idx = produits.findIndex((p: any) => p.id == edition);
      if (idx !== -1) produits[idx] = { ...produits[idx], nom, categorie, prix: Number(prix), etat, image };
     } else {
       produits.push({ id: Date.now().toString(), nom, categorie, prix: Number(prix), etat, image, quantite: 0 });
