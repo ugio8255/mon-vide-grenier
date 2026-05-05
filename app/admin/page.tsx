@@ -66,7 +66,7 @@ export default function Admin() {
     const produits = getProduits();
     if (edition) {
       const idx = produits.findIndex(p => p.id === edition);
-      if (idx > -1) produits[idx] = { ...produits[idx], nom, categorie, prix: Number(prix), etat, image };
+     if (idx !== -1) produits[idx] = { ...produits[idx], nom, categorie, prix: Number(prix), etat, image };
     } else {
       produits.push({ id: Date.now().toString(), nom, categorie, prix: Number(prix), etat, image, quantite: 0 });
     }
