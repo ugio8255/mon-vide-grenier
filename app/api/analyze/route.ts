@@ -22,11 +22,8 @@ export async function POST(req: NextRequest) {
     }
   );
 
-    const data = await response.json();
-  console.log("Gemini brut:", JSON.stringify(data));
+  const data = await response.json();
   const contenu = data.candidates?.[0]?.content?.parts?.[0]?.text || "{}";
-  console.log("Contenu:", contenu);
   const json = JSON.parse(contenu.replace(/```json|```/g, "").trim());
-  console.log("JSON final:", json);
   return NextResponse.json(json);
 }
