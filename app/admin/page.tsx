@@ -41,22 +41,19 @@ export default function Admin() {
   const analyserAvecIA = async () => {
     if (!image) return;
     setLoading(true);
-    alert("Début analyse...");
     try {
       const res = await fetch("/api/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ imageBase64: image }),
       });
-      alert("Statut: " + res.status);
       const data = await res.json();
-      alert("Réponse: " + JSON.stringify(data).substring(0, 200));
       if (data.nom) setNom(data.nom);
       if (data.categorie) setCategorie(data.categorie);
       if (data.prixEstime) setPrix(String(data.prixEstime));
       if (data.etat) setEtat(data.etat);
-    } catch (err: any) {
-      alert("Erreur: " + err.message);
+    } catch (err) {
+      alert("Erreur IA");
     }
     setLoading(false);
   };
@@ -65,8 +62,8 @@ export default function Admin() {
     if (!nom || !categorie || !prix) return alert("Remplis tous les champs");
     const produits = getProduits();
     if (edition) {
-      const idx = produits.findIndex((p: any) => p.id == edition);
-     if (idx !== -1) produits[idx] = { ...produits[idx], nom, categorie, prix: Number(prix), etat, image };
+      const idx = produits.findIndex(p => String(p.id) === edition);
+      if (idx !== -1) produits[idx] = { ...produits[idx], nom, categorie, prix: Number(prix), etat, image };
     } else {
       produits.push({ id: Date.now().toString(), nom, categorie, prix: Number(prix), etat, image, quantite: 0 });
     }
@@ -87,7 +84,6 @@ export default function Admin() {
 
   return (
     <main className="min-h-screen bg-[#fdf6f0] text-[#3E2723]">
-      {/* Navigation */}
       <nav className="flex justify-center gap-6 py-4 bg-[#f5f0eb]">
         <a href="/" className="text-amber-900 font-bold hover:underline">Accueil</a>
         <span className="text-stone-400 font-bold">|</span>
