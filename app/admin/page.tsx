@@ -63,8 +63,8 @@ export default function AdminAtelier() {
       if (data.categorie) setCategorie(data.categorie);
       if (data.prixEstime) setPrix(String(data.prixEstime));
       if (data.etat) setEtat(data.etat);
-    } catch (err) {
-      alert("Erreur IA");
+        } catch (err: any) {
+      alert("Erreur IA : " + (err?.message || err?.toString?.() || "inconnue"));
     }
     setLoading(false);
   };
