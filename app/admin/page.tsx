@@ -89,6 +89,12 @@ export default function AdminAtelier() {
 
   return (
     <main className="min-h-screen bg-[#fdf6f0] text-[#3E2723]">
+            {/* Navigation */}
+      <nav className="flex justify-center gap-6 py-4 bg-[#f5f0eb]">
+        <a href="/" className="text-amber-900 font-bold hover:underline">Accueil</a>
+        <span className="text-stone-400 font-bold">|</span>
+        <a href="/boutique" className="text-amber-900 font-bold hover:underline">Boutique</a>
+      </nav>
       <section className="py-12 px-4 max-w-4xl mx-auto">
         <h1 className="text-3xl font-serif font-bold text-amber-900 text-center mb-8">Gestion de l'Atelier</h1>
 

@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { getProduits, Produit } from "../lib/produits";
 
@@ -12,12 +11,19 @@ export default function Boutique() {
 
   return (
     <main className="min-h-screen bg-[#fdf6f0] text-[#3E2723]">
+      {/* Navigation */}
+<nav className="flex justify-center gap-6 py-4 bg-[#f5f0eb]">
+  <a href="/" className="text-amber-900 font-bold hover:underline">Accueil</a>
+  <span className="text-stone-400 font-bold">|</span>
+  <a href="/admin" className="text-amber-900 font-bold hover:underline">Atelier</a>
+</nav>
+
       <section className="py-16 px-4 max-w-6xl mx-auto">
         <h1 className="text-4xl font-serif font-bold text-amber-900 text-center mb-4">
           La Collection Complète
         </h1>
         <p className="text-center text-stone-500 mb-12 max-w-2xl mx-auto">
-          Explorez notre sélection méticuleuse d objets qui racontent une histoire.
+          Explorez notre sélection méticuleuse d'objets qui racontent une histoire.
           Chaque pièce est une promesse de charme pour votre intérieur.
         </p>
 
@@ -28,7 +34,7 @@ export default function Boutique() {
               className="bg-white rounded-2xl shadow-md overflow-hidden border border-amber-100 hover:shadow-lg transition"
             >
               <div className="h-48 bg-stone-200 flex items-center justify-center text-stone-400">
-                📷 {p.categorie}
+                <p>{p.categorie}</p>
               </div>
               <div className="p-4">
                 <span className="text-xs text-amber-600 font-bold uppercase">
