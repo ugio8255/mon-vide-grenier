@@ -10,14 +10,7 @@ export default function Boutique() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-[#fdf6f0] text-[#3E2723]">
-      {/* Navigation */}
-<nav className="flex justify-center gap-6 py-4 bg-[#f5f0eb]">
-  <a href="/" className="text-amber-900 font-bold hover:underline">Accueil</a>
-  <span className="text-stone-400 font-bold">|</span>
-  <a href="/admin" className="text-amber-900 font-bold hover:underline">Atelier</a>
-</nav>
-
+    <main className="min-h-screen bg-[#C5C9B4] text-[#3E2723] pt-16">
       <section className="py-16 px-4 max-w-6xl mx-auto">
         <h1 className="text-4xl font-serif font-bold text-amber-900 text-center mb-4">
           La Collection Complète
@@ -29,24 +22,37 @@ export default function Boutique() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {produits.map((p) => (
-            <div
+            <a
               key={p.id}
-              className="bg-white rounded-2xl shadow-md overflow-hidden border border-amber-100 hover:shadow-lg transition"
+              href={`/produit/${p.id}`}
+              className="bg-[#FDF8F4] rounded-2xl shadow-md overflow-hidden border border-amber-100 hover:shadow-lg transition block"
             >
-              <div className="h-48 bg-stone-200 flex items-center justify-center text-stone-400">
-                <p>{p.categorie}</p>
+              <div className="h-48 bg-transparent flex items-center justify-center overflow-hidden rounded-t-2xl relative">
+                {p.images && p.images.length > 0 ? (
+                  <>
+                    <img src={p.images[0]} alt={p.nom} className="w-full h-full object-contain bg-transparent" />
+                    {p.images.length >= 2 && (
+                      <span className="absolute top-2 right-2 bg-black/60 text-white text-xs font-bold px-2 py-1 rounded-full">
+                        +{p.images.length}
+                      </span>
+                    )}
+                  </>
+                ) : (
+                  <p className="text-stone-400">{p.categorie}</p>
+                )}
               </div>
               <div className="p-4">
                 <span className="text-xs text-amber-600 font-bold uppercase">
                   {p.categorie}
                 </span>
                 <h3 className="text-lg font-semibold mt-1">{p.nom}</h3>
+                <div><strong>{p.nom}</strong> — {p.prix}€ — {p.etat}</div>
                 <div className="flex justify-between items-center mt-3">
                   <span className="text-xl font-bold text-amber-900">{p.prix}€</span>
                   <span className="text-xs bg-stone-100 px-2 py-1 rounded-full">{p.etat}</span>
                 </div>
               </div>
-            </div>
+            </a>
           ))}
         </div>
       </section>
