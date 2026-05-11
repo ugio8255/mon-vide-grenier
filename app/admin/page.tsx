@@ -185,7 +185,7 @@ export default function Admin() {
                     </span>
                   )}
                 </div>
-                <div><strong>{p.nom}</strong> — {p.prix}€ — {p.etat}</div>
+                <div><a href={`/produit?id=${p.id}`} className="hover:underline"><strong>{p.nom}</strong></a> — {p.prix}€ — {p.etat}</div>
               </div>
               <div className="flex gap-2">
                 <button onClick={() => editer(p)} className="text-blue-500" aria-label="Modifier">✏️</button>

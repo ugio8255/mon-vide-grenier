@@ -24,7 +24,7 @@ export default function Boutique() {
           {produits.map((p) => (
             <a
               key={p.id}
-              href={`/produit/${p.id}`}
+              href={`/produit?id=${p.id}`}
               className="bg-[#FDF8F4] rounded-2xl shadow-md overflow-hidden border border-amber-100 hover:shadow-lg transition block"
             >
               <div className="h-48 bg-transparent flex items-center justify-center overflow-hidden rounded-t-2xl relative">
