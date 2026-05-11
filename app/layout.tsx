@@ -16,11 +16,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <a href="/" className="text-xl font-serif font-bold tracking-wider ml-8 flex items-center">
         <span className="text-amber-400 mr-2">◆</span> MON VIDE GRENIER
       </a>
-      <a href="/" className="text-sm uppercase tracking-wider hover:text-amber-300 transition">Accueil</a>
-      <a href="/boutique" className="text-sm uppercase tracking-wider hover:text-amber-300 transition">Boutique</a>
-      <a href="/admin" className="text-sm uppercase tracking-wider hover:text-amber-300 transition">L'Atelier</a>
-    </div>
-    <a href="#" className="text-sm uppercase tracking-wider hover:text-amber-300 transition mr-20">Contact</a>
+      <a href="/mon-vide-grenier/" className="text-sm uppercase tracking-wider hover:text-amber-300 transition">Accueil</a>
+<a href="/mon-vide-grenier/boutique" className="text-sm uppercase tracking-wider hover:text-amber-300 transition">Boutique</a>
+<a href="/mon-vide-grenier/admin" className="text-sm uppercase tracking-wider hover:text-amber-300 transition">L'Atelier</a>
+<a href="#" className="text-sm uppercase tracking-wider hover:text-amber-300 transition mr-20">Contact</a>
   </div>
 </nav>
                {children}
@@ -31,8 +30,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </p>
           <div className="flex justify-center gap-6 text-xs text-stone-400 mb-4">
             <a href="#" className="hover:text-amber-300 transition">Mentions légales</a>
-            <a href="#" className="hover:text-amber-300 transition">CGV</a>
-            <a href="#" className="hover:text-amber-300 transition">Contact</a>
+<a href="#" className="hover:text-amber-300 transition">CGV</a>
+<a href="#" className="hover:text-amber-300 transition">Contact</a>
           </div>
           <p className="text-xs text-stone-500">
             © 2026 Mon Vide Grenier — Tous droits réservés
