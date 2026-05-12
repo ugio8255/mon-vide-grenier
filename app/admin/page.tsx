@@ -14,14 +14,43 @@ export default function Admin() {
   const [edition, setEdition] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // 🔐 Authentification
+const [authenticated, setAuthenticated] = useState(false);
+const [usernameInput, setUsernameInput] = useState("");
+const [passwordInput, setPasswordInput] = useState("");
+const USERNAME = "VanniGio";
+const MOT_DE_PASSE = "AtelierFantasma";
+
   useEffect(() => {
+    const auth = localStorage.getItem("admin_auth");
+    if (auth === "true") setAuthenticated(true);
+  }, []);
+
+  const handleLogin = () => {
+    if (passwordInput === MOT_DE_PASSE) {
+      localStorage.setItem("admin_auth", "true");
+      setAuthenticated(true);
+    } else {
+      alert("Mot de passe incorrect");
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("admin_auth");
+    setAuthenticated(false);
+    setUsernameInput("");
+    setPasswordInput("");
+  };
+
+  useEffect(() => {
+    if (!authenticated) return;
     try {
       const stored = localStorage.getItem("produits");
       if (stored) setProduits(JSON.parse(stored));
     } catch {
       setProduits([]);
     }
-  }, []);
+  }, [authenticated]);
 
   const compresser = (file: File): Promise<string> => {
     return new Promise((resolve) => {
@@ -45,9 +74,12 @@ export default function Admin() {
   };
 
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const f = e.target.files?.[0]; if (!f) return;
-    const compressed = await compresser(f);
-    setImages(prev => [...prev, compressed]);
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+    for (const f of Array.from(files)) {
+      const compressed = await compresser(f);
+      setImages(prev => [...prev, compressed]);
+    }
   };
 
   const analyserAvecIA = async () => {
@@ -65,7 +97,7 @@ export default function Admin() {
       if (data.prixEstime) setPrix(String(data.prixEstime));
       if (data.etat) setEtat(data.etat);
       if (data.description) setDescription(data.description);
-        } catch (err) {
+    } catch (err) {
       if (err instanceof Error) {
         console.error("Erreur :", err.message);
       }
@@ -75,17 +107,17 @@ export default function Admin() {
 
   const publier = () => {
     if (!nom || !categorie || !prix) return alert("Remplis tous les champs");
-    const produits = JSON.parse(localStorage.getItem("produits") || "[]");
+    const liste = JSON.parse(localStorage.getItem("produits") || "[]");
     if (edition) {
-      const idx = produits.findIndex((p: Produit) => String(p.id) === edition);
+      const idx = liste.findIndex((p: Produit) => String(p.id) === edition);
       if (idx !== -1) {
-        produits[idx] = { ...produits[idx], nom, categorie, prix: Number(prix), etat, images: [...images], description };
+        liste[idx] = { ...liste[idx], nom, categorie, prix: Number(prix), etat, images: [...images], description };
       }
     } else {
-      produits.push({ id: Date.now().toString(), nom, categorie, prix: Number(prix), etat, images: [...images], description, quantite: 0 });
+      liste.push({ id: Date.now().toString(), nom, categorie, prix: Number(prix), etat, images: [...images], description, quantite: 0 });
     }
-    localStorage.setItem("produits", JSON.stringify(produits));
-    setProduits(produits);
+    localStorage.setItem("produits", JSON.stringify(liste));
+    setProduits(liste);
     setNom(""); setCategorie(""); setPrix(""); setEtat("Très bon état"); setImages([]); setDescription(""); setEdition(null);
   };
 
@@ -101,19 +133,58 @@ export default function Admin() {
 
   const supprimer = (id: string) => {
     if (!confirm("Supprimer ce produit ?")) return;
-    const produits = JSON.parse(localStorage.getItem("produits") || "[]").filter((p: Produit) => p.id !== id);
-    localStorage.setItem("produits", JSON.stringify(produits));
-    setProduits(produits);
+    const liste = JSON.parse(localStorage.getItem("produits") || "[]").filter((p: Produit) => p.id !== id);
+    localStorage.setItem("produits", JSON.stringify(liste));
+    setProduits(liste);
   };
+
+  // 🔐 Page de connexion
+  if (!authenticated) {
+    return (
+      <main className="min-h-screen bg-[#C5C9B4] text-[#3E2723] pt-16 flex items-center justify-center">
+        <div className="bg-[#EDE0D4] rounded-3xl p-10 shadow-xl border border-amber-200 max-w-md w-full text-center">
+          <h1 className="text-3xl font-serif font-bold text-amber-900 mb-4">L&apos;Accès Réservé</h1>
+          <p className="text-stone-500 mb-8 italic">Entrez dans l&apos;Atelier de Gestion</p>
+          <input
+    type="text"
+    placeholder="VanniGio"
+    value={usernameInput}
+    onChange={(e) => setUsernameInput(e.target.value)}
+    className="w-full border border-amber-200 rounded-xl p-3 mb-4 bg-white text-center"
+/>
+          <input
+            type="password"
+            placeholder="Mot de passe secret"
+            value={passwordInput}
+            onChange={(e) => setPasswordInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleLogin()}
+            className="w-full border border-amber-300 rounded-xl p-3 mb-6 bg-white text-center"
+          />
+          <button
+            onClick={handleLogin}
+            className="w-full bg-amber-700 text-white py-3 rounded-full font-bold uppercase tracking-wider hover:bg-amber-600 transition shadow-lg"
+          >
+            Ouvrir l&apos;Atelier →
+          </button>
+          <p className="text-xs text-stone-400 mt-6">Accès réservé au propriétaire</p>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-[#C5C9B4] text-[#3E2723] pt-16">
+      {/* Bouton déconnexion */}
+      <button onClick={handleLogout} className="fixed top-20 right-4 text-xs text-stone-400 hover:text-red-500 transition z-50">
+        Se déconnecter
+      </button>
+
       <section className="max-w-3xl mx-auto py-12 px-4">
         <h1 className="text-3xl font-serif font-bold text-amber-900 text-center mb-8">Gestion de l&apos;Atelier</h1>
         <h2 className="text-xl font-bold text-amber-800 mb-4">Ajouter une pépite</h2>
         <div className="flex flex-col gap-4 mb-8">
           <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFile} hidden multiple />
-          <button type="button" onClick={() => fileInputRef.current?.click()} className="w-full max-w-md mx-auto border border-dashed border-stone-300 rounded-xl p-6 bg-[#E5D5C8] hover:bg-[#EDE0D4] hover:border-amber-400 cursor-pointer transition shadow-lg">
+          <button type="button" onClick={() => fileInputRef.current?.click()} className="w-full max-w-md mx-auto border border-dashed border-stone-300 rounded-xl p-6 bg-[#EDE0D4] hover:bg-[#E5D5C8] hover:border-amber-400 cursor-pointer transition shadow-lg">
             📷 Cliquez pour ajouter des photos
           </button>
           {images.length > 0 && (
@@ -160,8 +231,8 @@ export default function Admin() {
             <button onClick={analyserAvecIA} disabled={images.length === 0 || loading} className="bg-red-800 text-white px-6 py-3 rounded-lg text-sm font-semibold disabled:opacity-50 shadow-md hover:bg-red-700 transition">
               {loading ? "⏳ Analyse..." : "🧠 Analyser avec l'IA"}
             </button>
-             {images.length > 1 && (
-              <p className="text-xs text-stone-400 text-center -mt-2">L'IA analyse uniquement la première photo</p>
+            {images.length > 1 && (
+              <p className="text-xs text-stone-400 text-center -mt-2">L&apos;IA analyse uniquement la première photo</p>
             )}
             <button onClick={publier} className="bg-amber-700 text-white px-6 py-3 rounded-lg font-semibold shadow-md hover:bg-amber-600 transition">
               Publier la pépite
@@ -173,11 +244,11 @@ export default function Admin() {
         {produits.length === 0 && <p className="text-stone-500">Aucun produit pour l&apos;instant.</p>}
         <div className="grid gap-4">
           {produits.map(p => (
-            <div key={p.id} className="flex items-center justify-between bg-[#EDE0D4] p-4 rounded-xl shadow border border-amber-100">
+            <div key={p.id} className="flex items-center justify-between bg-[#EDE0D4] p-4 rounded-xl shadow-lg border border-amber-100">
               <div className="flex items-center gap-4">
                 <div className="relative">
                   {p.images && p.images.length > 0 && (
-                    <img src={p.images[0]} className="w-16 h-16 object-cover rounded" />
+                    <img src={p.images[0]} alt={p.nom} className="w-16 h-16 object-cover rounded" />
                   )}
                   {p.images && p.images.length >= 2 && (
                     <span className="absolute top-0 -right-1 bg-amber-800 text-amber-50 text-[10px] font-medium px-1.5 py-0.5 rounded-full shadow-sm">
@@ -189,7 +260,7 @@ export default function Admin() {
               </div>
               <div className="flex gap-2">
                 <button onClick={() => editer(p)} className="text-blue-500" aria-label="Modifier">✏️</button>
-<button onClick={() => supprimer(p.id)} className="text-red-500" aria-label="Supprimer">🗑️</button>
+                <button onClick={() => supprimer(p.id)} className="text-red-500" aria-label="Supprimer">🗑️</button>
               </div>
             </div>
           ))}

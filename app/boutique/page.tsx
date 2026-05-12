@@ -12,55 +12,83 @@ export default function Boutique() {
   return (
     <main className="min-h-screen bg-[#C5C9B4] text-[#3E2723] pt-16">
       <section className="py-16 px-4 max-w-6xl mx-auto">
-        <h1 className="text-4xl font-serif font-bold text-amber-900 text-center mb-4">
-          La Collection Complète
-        </h1>
-        <p className="text-center text-stone-500 mb-12 max-w-2xl mx-auto">
-          Explorez notre sélection méticuleuse d'objets qui racontent une histoire.
-          Chaque pièce est une promesse de charme pour votre intérieur.
-        </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {produits.map((p) => (
-            <a
-              key={p.id}
-              href={`/produit?id=${p.id}`}
-              className="bg-[#FDF8F4] rounded-2xl shadow-md overflow-hidden border border-amber-100 hover:shadow-lg transition block"
-            >
-              <div className="h-48 bg-transparent flex items-center justify-center overflow-hidden rounded-t-2xl relative">
-                {p.images && p.images.length > 0 ? (
-                  <>
-                    <img src={p.images[0]} alt={p.nom} className="w-full h-full object-contain bg-transparent" />
-                    {p.images.length >= 2 && (
-                      <span className="absolute top-2 right-2 bg-black/60 text-white text-xs font-bold px-2 py-1 rounded-full">
-                        +{p.images.length}
-                      </span>
-                    )}
-                  </>
-                ) : (
-                  <p className="text-stone-400">{p.categorie}</p>
-                )}
-              </div>
-              <div className="p-4">
-                <span className="text-xs text-amber-600 font-bold uppercase">
-                  {p.categorie}
-                </span>
-                <h3 className="text-lg font-semibold mt-1">{p.nom}</h3>
-                <div><strong>{p.nom}</strong> — {p.prix}€ — {p.etat}</div>
-                <div className="flex justify-between items-center mt-3">
-                  <span className="text-xl font-bold text-amber-900">{p.prix}€</span>
-                  <span className="text-xs bg-stone-100 px-2 py-1 rounded-full">{p.etat}</span>
-                </div>
-              </div>
-            </a>
-          ))}
+        {/* En-tête */}
+        <div className="mb-20 text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold uppercase tracking-widest mb-6">
+            ✨ Pièces Uniques
+          </div>
+          <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6 text-amber-900">
+            La Collection Complète
+          </h1>
+          <p className="text-stone-500 max-w-2xl mx-auto italic">
+            Explorez notre sélection méticuleuse d&apos;objets qui racontent une histoire. 
+            Chaque pièce est une promesse de charme pour votre intérieur.
+          </p>
+          <div className="w-24 h-px bg-amber-300 mx-auto mt-12" />
         </div>
-      </section>
 
-      <footer className="bg-stone-800 text-stone-300 py-8 px-4 text-center">
-        <p className="font-serif text-amber-400 text-lg">Mon Vide Grenier</p>
-        <p className="text-xs text-stone-500">contact@monvidegrenier.fr</p>
-      </footer>
+        {/* Grille */}
+        {produits.length === 0 ? (
+          <div className="col-span-full py-32 text-center text-stone-400 italic">
+            L&apos;Atelier prépare actuellement de nouvelles trouvailles...
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16">
+            {produits.map((p) => (
+              <a
+                key={p.id}
+                href={`/produit?id=${p.id}`}
+                className="group block bg-white rounded-[2rem] overflow-hidden border border-amber-100 shadow-sm hover:shadow-xl transition-all duration-500"
+              >
+                {/* Image */}
+                <div className="p-3">
+                  <div className="aspect-[4/5] relative overflow-hidden rounded-[1.5rem] bg-stone-100 ring-1 ring-amber-300/50">
+                    {p.images && p.images.length > 0 ? (
+                      <>
+                        <img src={p.images[0]} alt={p.nom} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                        {p.images.length >= 2 && (
+                          <span className="absolute top-2 right-2 bg-black/60 text-white text-xs font-bold px-2 py-1 rounded-full">
+                            +{p.images.length}
+                          </span>
+                        )}
+                      </>
+                    ) : (
+                      <div className="flex items-center justify-center h-full text-stone-400">{p.categorie}</div>
+                    )}
+                    {/* Badge état */}
+                    <div className="absolute top-3 left-3">
+                      <span className="bg-white/80 backdrop-blur-sm text-[#3E2723] font-bold text-[10px] uppercase tracking-wider px-3 py-1 rounded-full">
+                        {p.etat}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Contenu */}
+                <div className="p-6 pt-2">
+                  <p className="text-[10px] text-stone-400 mb-2 uppercase tracking-[0.2em] font-bold">
+                    {p.categorie}
+                  </p>
+                  <h3 className="text-xl font-bold text-[#3E2723] group-hover:text-amber-700 transition-colors truncate">
+                    {p.nom}
+                  </h3>
+                  <p className="text-sm text-stone-500 line-clamp-2 mt-3 leading-relaxed italic h-10">
+                    {p.description || "Aucune description"}
+                  </p>
+                </div>
+
+                {/* Footer */}
+                <div className="p-6 pt-0 flex justify-between items-center border-t border-amber-100 mt-auto">
+                  <span className="text-2xl font-black text-amber-700">{p.prix}€</span>
+                  <span className="text-[10px] uppercase tracking-widest font-bold text-stone-400 group-hover:text-amber-700 group-hover:translate-x-1 transition-all">
+                    DÉTAILS →
+                  </span>
+                </div>
+              </a>
+            ))}
+          </div>
+        )}
+      </section>
     </main>
   );
 }
