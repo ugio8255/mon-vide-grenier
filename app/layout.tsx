@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Navbar from "./components/Navbar";
+
 export const metadata: Metadata = {
   title: "Mon Vide Grenier",
   description: "Les trésors cachés de ma maison",
@@ -9,19 +11,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="fr">
       <body style={{ backgroundColor: '#C5C9B4' }} className="text-[#3E2723]">
-        <nav className="w-full bg-[#5D4037] text-white py-2 border-b-2 border-amber-400 fixed top-0 left-0 z-50">
-          <div className="flex items-center justify-between px-4">
-            <div className="flex items-center gap-8">
-              <a href="/" className="text-xl font-serif font-bold tracking-wider ml-8 flex items-center">
-          <span className="text-amber-400 mr-2">◆</span> MON VIDE GRENIER
-            </a>
-              <a href="/" className="text-sm uppercase tracking-wider hover:text-amber-300 transition">Accueil</a>
-<a href="/boutique" className="text-sm uppercase tracking-wider hover:text-amber-300 transition">Boutique</a>
-<a href="/admin" className="text-sm uppercase tracking-wider hover:text-amber-300 transition">L&apos;Atelier</a>
-            </div>
-            <a href="#" className="text-sm uppercase tracking-wider hover:text-amber-300 transition mr-20">Contact</a>
-          </div>
-        </nav>
+        <Navbar />
         {children}
         <footer className="bg-[#5D4037] text-stone-300 py-8 px-4 text-center mt-auto">
           <p className="font-serif text-amber-400 text-lg mb-2">Mon Vide Grenier</p>
