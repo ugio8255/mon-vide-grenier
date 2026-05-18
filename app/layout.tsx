@@ -3,8 +3,9 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 
 export const metadata: Metadata = {
-  title: "Mon Vide Grenier",
-  description: "Les trésors cachés de ma maison",
+  title: "Mon Vide Grenier | Brocante en ligne - Objets d'occasion",
+  description: "Découvrez nos trésors cachés : objets d'occasion, électronique, outils, décoration. Brocante en ligne, livraison soignée ou retrait sur place.",
+  keywords: "vide grenier, brocante en ligne, objets occasion, électronique occasion, achat occasion France",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

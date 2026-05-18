@@ -1,3 +1,10 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Mon Vide Grenier | Objets d'occasion, brocante en ligne",
+  description: "Découvrez nos trésors cachés : objets d'occasion, électronique, outils, décoration. Brocante en ligne, livraison soignée ou retrait sur place.",
+  keywords: "vide grenier, brocante en ligne, objets occasion, acheter occasion, électronique occasion",
+};
 import Link from 'next/link';
 
 export default function Home() {
