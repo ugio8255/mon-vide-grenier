@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Analytics from "./analytics";
 
 export const metadata: Metadata = {
   title: "Mon Vide Grenier",
@@ -34,6 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
           <p className="text-xs text-stone-500">© 2026 Mon Vide Grenier — Tous droits réservés</p>
         </footer>
+        <Analytics />
       </body>
     </html>
   );
