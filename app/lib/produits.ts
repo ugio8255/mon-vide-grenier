@@ -1,5 +1,3 @@
-import { PRODUITS_INITIAUX } from "./produits-data";
-
 export interface Produit {
   id: string;
   nom: string;
@@ -10,6 +8,8 @@ export interface Produit {
   description?: string;
   quantite: number;
 }
+
+const PRODUITS_INITIAUX: Produit[] = [];
 
 export function getProduits(): Produit[] {
   if (typeof window === "undefined") return PRODUITS_INITIAUX;

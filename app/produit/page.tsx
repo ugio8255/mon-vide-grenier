@@ -17,6 +17,7 @@ function ProduitContent() {
     const produits: Produit[] = JSON.parse(stored);
     const trouve = produits.find(p => String(p.id) === id);
     setProduit(trouve || null);
+    setTimeout(() => window.scrollTo({ top: 0, behavior: "instant" }), 100);
   }, [id]);
 
   const images = produit?.images || [];

@@ -8,7 +8,11 @@ export default function Boutique() {
   const [recherche, setRecherche] = useState("");
 
   useEffect(() => {
-    setProduits(getProduits());
+    const charger = async () => {
+      const data = await getProduits();
+      setProduits(data);
+    };
+    charger();
   }, []);
 const estNouveau = (id: string) => {
   const timestamp = parseInt(id);
